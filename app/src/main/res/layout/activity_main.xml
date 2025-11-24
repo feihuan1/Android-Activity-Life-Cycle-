@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_view_refresh_status"
+    <EditText
+        android:id="@+id/edit_text_message"
+        android:hint="please type the massage to save"
+        android:minLines="3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="This will be the refresh text."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
