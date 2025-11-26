@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.activitylifecycleplayground.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,13 +17,37 @@ class MainActivity : AppCompatActivity() {
         binding.buttonExit.setOnClickListener {
             showDialog()
         }
+
+        binding.buttonSave.setOnClickListener { saveMessage() }
     }
 
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        val userMessage = binding.editTextMessage.text
-//        File(filesDir, "user message.txt").writeText(userMessage.toString())
-//    }
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    //**** when rotate phone, the activity will be destroyed and re-created!!! need save data!!!
+    private fun MainActivity.saveMessage() {
+        val userMessage = binding.editTextMessage.text
+        File(filesDir, "user message.txt").writeText(userMessage.toString())
+        binding.textViewSavedMessage.text = "your message has been saved! \n\nMessage Preview: \n\n$userMessage"
+        binding.editTextMessage.setText("")
+    }
 
     private fun showDialog(){
         AlertDialog.Builder(this)
