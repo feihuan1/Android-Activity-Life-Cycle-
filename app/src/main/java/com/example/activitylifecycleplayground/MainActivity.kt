@@ -17,8 +17,16 @@ class MainActivity : AppCompatActivity() {
         binding.buttonExit.setOnClickListener {
             showDialog()
         }
-
         binding.buttonSave.setOnClickListener { saveMessage() }
+
+        binding.textViewSavedMessage.text = savedInstanceState?.getString("savedMessage")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val savedTextViewMessage = binding.textViewSavedMessage.text.toString()
+        outState.putString("savedMessage", savedTextViewMessage)
+
     }
 
     override fun onStart() {
