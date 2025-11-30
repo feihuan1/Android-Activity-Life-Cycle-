@@ -4,11 +4,13 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.example.activitylifecycleplayground.databinding.ActivityMainBinding
 import java.io.File
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TestFragment.TestFragmentListener {
     private lateinit var binding: ActivityMainBinding
+    private val testFragment = TestFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +20,8 @@ class MainActivity : AppCompatActivity() {
             showDialog()
         }
         binding.buttonSave.setOnClickListener { saveMessage() }
-
+        binding.buttonShowFragment.setOnClickListener { showFragment() }
+        binding.buttonRemoveFragment.setOnClickListener { removeFragment() }
         binding.textViewSavedMessage.text = savedInstanceState?.getString("savedMessage")
     }
 
@@ -26,7 +29,18 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         val savedTextViewMessage = binding.textViewSavedMessage.text.toString()
         outState.putString("savedMessage", savedTextViewMessage)
+    }
 
+    private fun showFragment() {
+        supportFragmentManager.commit {
+            add(R.id.fragment_container, testFragment)
+        }
+    }
+
+    private fun removeFragment() {
+        supportFragmentManager.commit {
+            remove(testFragment)
+        }
     }
 
     override fun onStart() {
@@ -73,6 +87,12 @@ class MainActivity : AppCompatActivity() {
 
             }
             .show()
-
     }
+
+    override fun clearActivityScreen() {
+        binding.editTextMessage.setText("")
+        binding.textViewSavedMessage.text = ""
+        removeFragment()
+    }
+
 }
